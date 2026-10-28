@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
-import { decreaseQuantity, increaseQuantity, removeItem, selectCartItems, selectCartTotal } from './CartSlice.jsx';
+import { removeItem, selectCartItems, selectCartTotal, updateQuantity } from './CartSlice.jsx';
 
 const money = (amount) => `$${amount.toFixed(2)}`;
 
@@ -41,9 +41,9 @@ export default function CartItem() {
                 <button className="remove-button" onClick={() => dispatch(removeItem(item.id))}><Trash2 size={14} /> Remove</button>
               </div>
               <div className="cart-quantity" aria-label={`Quantity of ${item.name}`}>
-                <button aria-label={`Decrease ${item.name} quantity`} disabled={item.quantity <= 1} onClick={() => dispatch(decreaseQuantity(item.id))}><Minus size={15} /></button>
+                <button aria-label={`Decrease ${item.name} quantity`} disabled={item.quantity <= 1} onClick={() => dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 }))}><Minus size={15} /></button>
                 <span>{item.quantity}</span>
-                <button aria-label={`Increase ${item.name} quantity`} onClick={() => dispatch(increaseQuantity(item.id))}><Plus size={15} /></button>
+                <button aria-label={`Increase ${item.name} quantity`} onClick={() => dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }))}><Plus size={15} /></button>
               </div>
               <strong className="cart-line-total">{money(item.price * item.quantity)}</strong>
             </article>
